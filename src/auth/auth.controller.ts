@@ -33,12 +33,9 @@ export class AuthController {
     return { user, token };
   }
 
-
   @Get("onlyauth")
   @UseGuards(AuthGuard("jwt"))
-  
-   async hiddenInformation(){
-     return  "hidden information";
-   }
-
+  async hiddenInformation() {
+    return "hidden information";
+  }
 }
