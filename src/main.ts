@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 declare const module: any;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.setGlobalPrefix('api');
   const options = new DocumentBuilder()
     .setTitle('Api Design')
@@ -17,9 +18,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-design', app, document);
-
   await app.listen(5000);
-
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
