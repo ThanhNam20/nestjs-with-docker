@@ -9,7 +9,15 @@ export const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
+    required: false
+  },
+  user_avatar: {
+    type: String,
     required: true
+  },
+  uid: {
+    type: String,
+    required: false
   },
 
 })
