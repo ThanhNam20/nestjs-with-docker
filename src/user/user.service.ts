@@ -45,12 +45,16 @@ export class UserService {
   }
 
   async loginWithGoogle(loginWithGoogle: LoginGoogleDto) {
-    const { email } = loginWithGoogle;
-    const user = await this.userModel.findOne({ email });
+    const { uid } = loginWithGoogle;
+    const user = await this.userModel.findOne({ uid });
     if (user) {
-      throw new HttpException(AUTHEN_MESSAGE.USER_EXIST, HttpStatus.BAD_REQUEST);
+      return user;
+    } else {
+      const createdUser = new this.userModel(loginWithGoogle);
+      await createdUser.save();
+      return this.sanitizeUser(createdUser);
     }
-    return {user};
+
   }
 
   private async validatePassword(attemptPass: string, userPassword: string): Promise<any> {
@@ -65,7 +69,4 @@ export class UserService {
     const { email } = payload;
     return await this.userModel.findOne({ email });
   }
-
-
-
 }

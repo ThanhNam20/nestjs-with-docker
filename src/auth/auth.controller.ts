@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
 import { UserService } from './../user/user.service';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
+import { LoginDto, LoginGoogleDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -26,6 +26,16 @@ export class AuthController {
   @Post('login')
   async login(@Body() UserDTO: LoginDto) {
     const user = await this.userService.findByLogin(UserDTO);
+    const payload = {
+      email: user.email,
+    };
+    const token = await this.authService.signPayload(payload);
+    return { user, token };
+  }
+
+  @Post('google')
+  async loginGoogle(@Body() googleDto: LoginGoogleDto) {
+    const user = await this.userService.loginWithGoogle(googleDto);
     const payload = {
       email: user.email,
     };
