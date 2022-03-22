@@ -10,11 +10,11 @@ export class AuthService {
   ){}
 
   async signPayload(payload: PayLoad) {
-    return sign(payload, process.env.SECRET_KEY, { expiresIn: '7d' });
+    return sign(payload, process.env.SECRET_KEY, { expiresIn: process.env.EXPIRES_TIME });
   }
 
   async validateUser(payload: PayLoad) {
-    return await this.userService.findByPayload(payload);
+    return await this.userService.findUserByGmail(payload);
   }
 
 }
