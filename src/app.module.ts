@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { AppGateway } from './app.gateway';
 import { JwtModule } from '@nestjs/jwt';
 import { ChatroomModule } from './chatroom/chatroom.module';
+import { ChatroomGateway } from './chatroom/chatroom.gateway';
 
 @Module({
   imports: [
@@ -20,9 +21,8 @@ import { ChatroomModule } from './chatroom/chatroom.module';
       secret: process.env.SECRET_KEY,
       signOptions: { expiresIn: process.env.EXPIRES_TIME},
     }),
-    
   ],
   controllers: [AppController],
-  providers: [AppService, AppGateway],
+  providers: [AppService, AppGateway, ChatroomGateway],
 })
 export class AppModule {}

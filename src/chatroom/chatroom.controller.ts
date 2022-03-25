@@ -21,4 +21,10 @@ export class ChatroomController {
     return await this.chatroomService.createChatRoomWithNewUser(chatRoomDto);
   }
 
+  @Get("get-message-by-room")
+  @UseGuards(AuthGuard("jwt"))
+  async getMessageByRoom(@Query('room_id') room_id: string) {
+    return await this.chatroomService.getMessageByChatRoom(room_id);
+  }
+
 }

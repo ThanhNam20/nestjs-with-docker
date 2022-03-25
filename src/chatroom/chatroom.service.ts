@@ -1,3 +1,5 @@
+import { MessageDto } from './dto/message.dto';
+import { Message } from './../types/message';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ChatRoom } from 'src/types/chatroom';
@@ -8,9 +10,9 @@ import { UserService } from 'src/user/user.service';
 export class ChatroomService {
   constructor(
     @InjectModel('ChatRoom') private chatRoomModel: Model<ChatRoom>,
+    @InjectModel('Message') private messageModel: Model<Message>,
     private userService: UserService
   ) { }
-
 
   async getChatRoomUser(user_id: string) {
     const chatRoomUserData = await this.chatRoomModel.find({ list_user_id_in_room: user_id });
@@ -29,11 +31,23 @@ export class ChatroomService {
         listUserInRoom.push(data);
       }
     }
-    chatRoomDto.list_user_in_room = listUserInRoom;
+    const listUserWithoutPasswordInRoom = listUserInRoom.map(item => this.userService.sanitizeUser(item));
+    chatRoomDto.list_user_in_room = listUserWithoutPasswordInRoom;
     const createdNewChatRoom = new this.chatRoomModel(chatRoomDto);
     await createdNewChatRoom.save();
     return createdNewChatRoom;
   }
+
+  async createNewMessage(messageDto: MessageDto){
+    const createNewMessage = new this.messageModel(messageDto);
+    await createNewMessage.save();
+    return createNewMessage; 
+  }
+
+  async getMessageByChatRoom(roomId: string){
+    return await this.messageModel.find({room_id: roomId});
+  }
+
 }
 
 

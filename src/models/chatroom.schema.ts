@@ -6,8 +6,8 @@ export const ChatRoomSchema = new mongoose.Schema({
   room_id: {
     type: String,
     default: uuid(),
-    required: true,
-    unique: true
+    unique: true,
+    required: true
   },
   list_user_id_in_room: {
     type: [],

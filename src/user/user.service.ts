@@ -57,7 +57,7 @@ export class UserService {
 
   }
 
-  async validatePassword(attemptPass: string, userPassword: string){
+  async validatePassword(attemptPass: string, userPassword: string) {
     const match = await bcrypt.compare(attemptPass, userPassword);
     if (!match) {
       throw new NotFoundException(AUTHEN_MESSAGE.WRONG_EMAIL_OR_PASSWORD);
@@ -75,7 +75,12 @@ export class UserService {
   }
 
   async findAllUser() {
-    return await this.userModel.find();
+    try {
+      const listUserWithPassword = await this.userModel.find();
+      const listUserWithoutPassword = listUserWithPassword.map(item => this.sanitizeUser(item));
+      return listUserWithoutPassword;
+    } catch (error) { }
   }
 
 }
+  
