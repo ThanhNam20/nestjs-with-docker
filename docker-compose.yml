@@ -10,6 +10,7 @@ services:
         command: npm run start:debug
         ports:
             - 5000:5000
+            - 5001:5001
             - 9229:9229
         networks:
             - nesjs-network
@@ -27,6 +28,7 @@ services:
         command: npm run start:prod
         ports:
             - 5000:5000
+            - 5001:5001
             - 9229:9229
         networks:
             - nesjs-network
