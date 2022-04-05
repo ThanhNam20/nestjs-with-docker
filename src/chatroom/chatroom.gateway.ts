@@ -51,12 +51,11 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
   @SubscribeMessage('messageToServer')
   handleMessage(client: Socket, payload: any): void {   
-    console.log(payload);
     const roomId: any = client.handshake?.query?.roomId;
     const newMessageModel : MessageDto = {
       message_id: uuid(),
       room_id: roomId,
-      user_id: this.userData.user_id,
+      user_id: payload.user_id,
       content: payload.body,
       created_at: Date.now()
     }
