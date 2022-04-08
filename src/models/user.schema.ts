@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { uuid } from 'uuidv4';
 
 export const UserSchema = new mongoose.Schema({
   email: {
@@ -22,11 +21,9 @@ export const UserSchema = new mongoose.Schema({
   },
   user_id: {
     type: String,
-    default: uuid(),
     unique: true,
     required: true
   },
-
 })
 
 UserSchema.pre('save', async function (next: any) {

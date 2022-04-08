@@ -1,11 +1,9 @@
-import { uuid } from 'uuidv4';
 import * as mongoose from 'mongoose';
 
 
 export const ChatRoomSchema = new mongoose.Schema({
   room_id: {
     type: String,
-    default: uuid(),
     unique: true,
     required: true
   },

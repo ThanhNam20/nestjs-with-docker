@@ -25,9 +25,7 @@ import { JwtService } from '@nestjs/jwt';
   },
 })
 export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-
   private userData: User;
-
   constructor(
     private jwtService: JwtService,
     private userService: UserService,
@@ -57,7 +55,8 @@ export class ChatroomGateway implements OnGatewayInit, OnGatewayConnection, OnGa
       room_id: roomId,
       user_id: payload.user_id,
       content: payload.body,
-      created_at: Date.now()
+      created_at: Date.now(),
+      message_type: payload.message_type | 0
     }
     this.chatroomService.createNewMessage(newMessageModel);
     this.server.to(roomId).emit('messageToClient', JSON.stringify(newMessageModel));

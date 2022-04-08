@@ -4,4 +4,5 @@ export interface MessageDto {
   room_id: string,
   content: string,
   created_at: number,
+  message_type?: number
 }

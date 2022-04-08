@@ -1,3 +1,4 @@
+import { uuid } from 'uuidv4';
 import { MessageDto } from './dto/message.dto';
 import { Message } from './../types/message';
 import { Injectable } from '@nestjs/common';
@@ -33,6 +34,7 @@ export class ChatroomService {
     }
     const listUserWithoutPasswordInRoom = listUserInRoom.map(item => this.userService.sanitizeUser(item));
     chatRoomDto.list_user_in_room = listUserWithoutPasswordInRoom;
+    chatRoomDto.room_id = uuid();
     const createdNewChatRoom = new this.chatRoomModel(chatRoomDto);
     await createdNewChatRoom.save();
     return createdNewChatRoom;
@@ -40,6 +42,7 @@ export class ChatroomService {
 
   async createNewMessage(messageDto: MessageDto){
     const createNewMessage = new this.messageModel(messageDto);
+
     await createNewMessage.save();
     return createNewMessage; 
   }

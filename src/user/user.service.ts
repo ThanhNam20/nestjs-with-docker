@@ -1,3 +1,4 @@
+import { uuid } from 'uuidv4';
 import { LoginGoogleDto } from './../auth/dto/login.dto';
 import { AUTHEN_MESSAGE } from './../config/constant';
 import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
@@ -28,6 +29,7 @@ export class UserService {
       throw new HttpException(AUTHEN_MESSAGE.USER_EXIST, HttpStatus.BAD_REQUEST);
     }
     RegisterDTO.user_avatar = USER_AVATAR;
+    RegisterDTO.user_id = uuid();
     const createdUser = new this.userModel(RegisterDTO);
     await createdUser.save();
     return this.sanitizeUser(createdUser);
